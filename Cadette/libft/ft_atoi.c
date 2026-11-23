@@ -10,8 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-
 int	is_space(char c)
 {
 	if (c == ' ' || (c >= 9 && c <= 13))
@@ -36,17 +34,15 @@ int	is_number(char c)
 		return (0);
 }
 
-
-
 int	ft_atoi(const char *nptr)
 {
 	int	i;
 	int	value;
-	int	num_negative;
+	int	isnegative;
 
 	i = 0;
 	value = 0;
-	num_negative = 0;
+	isnegative = 0;
 	while (is_space(nptr[i]))
 	{
 		i++;
@@ -54,12 +50,12 @@ int	ft_atoi(const char *nptr)
 	while (is_operator(nptr[i]))
 	{
 		if (nptr[i] == '-')
-			num_negative++;
+			isnegative = 1;
 		i++;
 	}
 	while (is_number(nptr[i]))
 		value = value * 10 + (nptr[i++] - '0');
-	if (num_negative % 2)
+	if (isnegative == 1)
 		return (-value);
 	else
 		return (value);
