@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include "libft.h"
 
 char	*ft_strdup(const char *s)
 {
@@ -34,18 +34,3 @@ char	*ft_strdup(const char *s)
 	str[i] = '\0';
 	return (str);
 }
-
-/*
-int main()
-{
-	char str[] = "skibidi";
-	char *str2;
-
-	printf("*str=%s, &str=%p\n", str, str);
-	str2 = ft_strdup(str);
-	printf("*str=%s, &str=%p\n", str, str);
-	printf("*str2=%s, &str2=%p\n", str2, str2);
-	free(str2);
-	return (0);
-}
-*/

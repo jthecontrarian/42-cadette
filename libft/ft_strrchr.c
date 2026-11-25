@@ -10,3 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
+char	*ft_strrchr(const char *s, int c)
+{
+	int		i;
+	char	*p;
+
+	i = 0;
+	p = NULL;
+	while (s[i] != '\0')
+	{
+		if (s[i] == (char)c)
+		{
+			p = (char *)&s[i];
+		}
+		i++;
+	}
+	if ((char)c == '\0')
+	{
+		p = (char *)&s[i];
+	}
+	return (p);
+}

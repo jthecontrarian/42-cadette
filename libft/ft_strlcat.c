@@ -20,18 +20,12 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 
 	len_src = 0;
 	while (src[len_src] != '\0')
-	{
 		len_src++;
-	}
 	len_dst = 0;
 	while (len_dst < size && dst[len_dst] != '\0')
-	{
-		len_dst++; 
-	}
-
+		len_dst++;
 	if (len_dst == size)
 		return (size + len_src);
-
 	i = 0;
 	while (src[i] != '\0' && len_dst + i + 1 < size)
 	{
@@ -39,11 +33,5 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 		i++;
 	}
 	dst[len_dst + i] = '\0';
-
 	return (len_dst + len_src);
-
-
-	// char buffer13_src[5] = "AA";
-	// char buffer13_dest[5] = "BB";
-	// size_t result13 = strlcat(buffer13_dest, buffer13_src, 5); // returns 4 and buffer13_dest = { 'B', 'B', 'A', 'A', '\0' }
 }
