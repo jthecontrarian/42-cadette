@@ -253,6 +253,18 @@ int main(void)
 	assert(strcmp(copy, str) == 0);
 	free(copy);
 
+	// ft_substr()
+	assert(ft_strncmp(ft_substr("AABBCC", 2, 2), "BB", 3));
+
+	// ft_strjoin()
+	assert(ft_strncmp(ft_strjoin("AA", "BB"), "AABB", 5) == 0);
+	assert(ft_strncmp(ft_strjoin("", "BB"), "BB", 3) == 0);
+	assert(ft_strncmp(ft_strjoin("AA", ""), "AA", 3) == 0);
+	assert(ft_strncmp(ft_strjoin("", ""), "", 1) == 0);
+
+	// ft_strtrim()
+	assert(ft_strncmp(ft_strtrim("ABCDE", "BC"), "ADE", 4) == 0);
+
 	printf("All tests passed\n");
 	return (0);
 }
