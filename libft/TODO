@@ -1,15 +1,6 @@
-# TODO FIX ATOI to be like man
-# headers and norm
+# check headers and test norm
 
+// add test for size = 0 for all the memory function starting from ft_memset() to at least ft_memmove()
 
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jelau <jelau@student.42kl.edu.my>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/11/23 14:44:31 by jelau             #+#    #+#             */
-/*   Updated: 2026/11/23 14:44:38 by jelau            ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+// To test all the ft_is*.c files
+ccc main.c ft_is*.c ft_strlen.c ft_atoi.c ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c ft_strlcpy.c ft_strlcat.c ft_toupper.c ft_tolower.c -lbsd && ./a.out
