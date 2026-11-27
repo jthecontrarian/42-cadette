@@ -6,51 +6,22 @@
 /*   By: jelau <jelau@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/25 15:31:21 by jelau             #+#    #+#             */
-/*   Updated: 2026/11/25 21:52:51 by jelau            ###   ########.fr       */
+/*   Updated: 2026/11/26 14:01:50 by jelau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char *ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char const *s1, char const *set)
 {
-	size_t	i;
-	size_t	j;
-	size_t	len;
-	char	*p;
+	size_t	front;
+	size_t	back;
 
-	len = 0;
-	i = 0;
-	while (s1[i] != '\0')
-	{
-		j = 0;
-		while (set[j] != '\0')
-		{
-			if (s1[i] != set[j])
-			{
-				len++;
-			}
-		} 
-	}
-
-	p = malloc(len);
-	if (!p)
-		return (NULL);
-
-	len = 0;
-	i = 0;
-	while (s1[i] != '\0')
-	{
-		j = 0;
-		while (set[j] != '\0')
-		{
-			if (s1[i] != set[j])
-			{
-				p[len] = s1[i];
-				len++;
-			}
-		} 
-	}
-	return (p);
-
+	front = 0;
+	while (s1[front] != '\0' && ft_strchr(set, s1[front]))
+		front++;
+	back = ft_strlen(s1);
+	while (back > front && ft_strchr(set, s1[back - 1]))
+		back--;
+	return (ft_substr(s1, front, back - front));
 }

@@ -1,3 +1,13 @@
+This project has been created as part of the 42 curriculum by jelau.
+
+# Description
+
+# Instructions
+
+# Resources
+
+
+===
 A README.md file must be provided at the root of your Git repository. Its purpose is
 to allow anyone unfamiliar with the project (peers, staff, recruiters, etc.)
 to quickly

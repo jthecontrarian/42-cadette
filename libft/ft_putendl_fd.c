@@ -6,7 +6,14 @@
 /*   By: jelau <jelau@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/25 15:32:05 by jelau             #+#    #+#             */
-/*   Updated: 2026/11/25 15:32:05 by jelau            ###   ########.fr       */
+/*   Updated: 2026/11/27 16:46:56 by jelau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
+void	ft_putendl_fd(char *s, int fd)
+{
+	ft_putstr_fd(s, fd);
+	write(fd, "\n", 1);
+}

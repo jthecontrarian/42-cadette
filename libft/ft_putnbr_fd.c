@@ -6,7 +6,19 @@
 /*   By: jelau <jelau@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/25 15:32:09 by jelau             #+#    #+#             */
-/*   Updated: 2026/11/25 15:32:10 by jelau            ###   ########.fr       */
+/*   Updated: 2026/11/27 20:24:46 by jelau            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+
+void	ft_putnbr_fd(int n, int fd)
+{
+	char	*s;
+
+	s = ft_itoa(n);
+	if (!s)
+		return ;
+	ft_putstr_fd(s, fd);
+	free(s);
+}

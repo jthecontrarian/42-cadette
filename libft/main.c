@@ -6,8 +6,46 @@
 #include <stdlib.h>
 #include "libft.h"
 
+static char	increment_by_num(unsigned int n, char c)
+{
+	return (c + n);
+}
+
+static void increment_by_one(unsigned int i, char *c)
+{
+	(void)i;
+	(*c)++; 
+}
+
+static void	print_linked_list(t_list *node)
+{
+	while (node != NULL)
+	{
+		printf("content=%s,", (char *)node->content);
+		printf("next=%p\n", node->next);
+		node = node->next;
+	}
+}
+
+static void	del_content(void *content)
+{
+	free(content);
+}
+
+static void	*increment_by_one_allocate(void *content)
+{
+	char	*copy;
+
+	copy = ft_strdup((char *)content);
+	if (copy == NULL)
+		return (NULL);
+	copy++;
+	return (copy);
+}
+
 int main(void)
 {
+	
 	// ft_isalpha(), ft_isdigit(), ft_isalnum(), ft_isascii(), ft_isprint()
 	int i;
 	for (i = -1; i < 256; i++) // -1 is included as documentation says unsigned int or EOF, which is -1.
@@ -158,6 +196,7 @@ int main(void)
 	assert(strncmp("abcd", "abcz", 3) == ft_strncmp("abcd", "abcz", 3));
 	assert(strncmp("abcd", "abc", 3) == ft_strncmp("abcd", "abc", 3));
 	assert(strncmp("abc", "abcd", 3) == ft_strncmp("abc", "abcd", 3));
+	assert((strncmp("é", "a", 1) > 0) == (ft_strncmp("é", "a", 1) > 0)); // beyond character code 127
 
 	// ft_memchr()
 	char buffer27[5] = "ABCD";
@@ -194,9 +233,9 @@ int main(void)
 	char buffer39[5] = "ABCD";
 	char buffer40[5] = "ABCE";
 	assert(memcmp(buffer39, buffer40, 0) == ft_memcmp(buffer39, buffer40, 0));
-	char buffer41[5] = "";
-	char buffer42[5] = "";
-	assert(memcmp(buffer41, buffer42, 0) == ft_memcmp(buffer41, buffer42, 0));
+	char buffer41[5] = "é";
+	char buffer42[5] = "a";
+	assert(memcmp(buffer41, buffer42, 0) == ft_memcmp(buffer41, buffer42, 0)); // beyond character code 127
 
 	// ft_strnstr()
 	// If little is an empty string, big is returned;  done
@@ -210,6 +249,7 @@ int main(void)
 	assert(strnstr(buffer43, "CCC", 9) == ft_strnstr(buffer43, "CCC", 9)); // CCC
 	assert(strnstr(buffer43, "", 0) == ft_strnstr(buffer43, "", 0)); // AAABBBCCC
 	assert(strnstr(buffer43, "", 10) == ft_strnstr(buffer43, "", 10)); // AAABBBCCC
+	assert(strnstr(buffer43, "BBB", 10) == ft_strnstr(buffer43, "BBB", 10)); // BBBCCC
 
 	// ft_atoi()
 	assert(ft_atoi("") == atoi(""));
@@ -254,16 +294,131 @@ int main(void)
 	free(copy);
 
 	// ft_substr()
-	assert(ft_strncmp(ft_substr("AABBCC", 2, 2), "BB", 3));
+	assert(ft_strncmp(ft_substr("AABBCC", 2, 2), "BB", 10) == 0);
+	assert(ft_substr("AABBCC", 2, 2)[2] == 0); // check for null terminated
+	assert(ft_strncmp(ft_substr("AABBCC", 2, 10), "BBCC", 10) == 0);
+	assert(ft_strncmp(ft_substr("AABBCC", 6, 2), "", 10) == 0);// test for out of range
 
 	// ft_strjoin()
 	assert(ft_strncmp(ft_strjoin("AA", "BB"), "AABB", 5) == 0);
+	assert(ft_strjoin("AA", "BB")[4] == 0); // check for null terminated
 	assert(ft_strncmp(ft_strjoin("", "BB"), "BB", 3) == 0);
 	assert(ft_strncmp(ft_strjoin("AA", ""), "AA", 3) == 0);
 	assert(ft_strncmp(ft_strjoin("", ""), "", 1) == 0);
 
 	// ft_strtrim()
-	assert(ft_strncmp(ft_strtrim("ABCDE", "BC"), "ADE", 4) == 0);
+	assert(ft_strncmp(ft_strtrim("CC", "AB"), "CC", 10) == 0);
+	assert(ft_strncmp(ft_strtrim("AACB", "CA"), "B", 10) == 0);
+	assert(ft_strncmp(ft_strtrim("CBAA", "CA"), "B", 10) == 0);
+	assert(ft_strncmp(ft_strtrim("AABBCDABAB", "AB"), "CD", 10) == 0);
+	assert(ft_strtrim("AABBCDABAB", "AB")[2] == 0); // check for null terminated
+	assert(ft_strncmp(ft_strtrim("AABBCABADABAB", "AB"), "CABAD", 15) == 0);
+	assert(ft_strncmp(ft_strtrim("", ""), "", 10) == 0);
+	assert(ft_strncmp(ft_strtrim("AB", ""), "AB", 10) == 0);
+	assert(ft_strncmp(ft_strtrim("", "AB"), "", 10) == 0);
+	assert(ft_strncmp(ft_strtrim(" A ", " "), "A", 10) == 0);
+
+	// ft_split()
+	char **strs;
+	strs = ft_split("aaa bbb ccc ddd ", ' ');
+	assert(ft_strncmp(strs[0], "aaa", 4) == 0);
+	assert(ft_strncmp(strs[1], "bbb", 4) == 0);
+	assert(ft_strncmp(strs[2], "ccc", 4) == 0);
+	assert(ft_strncmp(strs[3], "ddd", 4) == 0);
+
+	// ft_itoa()
+	assert(ft_strncmp(ft_itoa(-2147483648), "-2147483648", 20) == 0);
+	assert(ft_strncmp(ft_itoa(-123), "-123", 20) == 0);
+	assert(ft_strncmp(ft_itoa(-1), "-1", 20) == 0);
+	assert(ft_strncmp(ft_itoa(0), "0", 20) == 0);
+	assert(ft_strncmp(ft_itoa(1), "1", 20) == 0);
+	assert(ft_strncmp(ft_itoa(123), "123", 20) == 0);
+	assert(ft_strncmp(ft_itoa(2147483647), "2147483647", 20) == 0);
+
+	// ft_strmapi()
+	assert(ft_strncmp(ft_strmapi("AAA", increment_by_num), "ABC", 10) == 0);
+
+	// ft_striteri()
+	char	str2[4] = "AAA";
+	ft_striteri(str2, increment_by_one);
+	assert(ft_strncmp(str2, "BBB", 10) == 0);
+
+	// ft_putchar_fd()
+	ft_putchar_fd('X', 1);
+
+	// ft_putstr_fd()
+	ft_putstr_fd("AAA", 1);
+
+	// ft_putendl_fd()
+	ft_putendl_fd("AAA", 1);
+
+	// ft_putnbr_fd()
+	ft_putnbr_fd(123, 1);
+
+	// ft_lstnew()
+	t_list	*head;
+	head = ft_lstnew("A"); // head -> A -> NULL
+	print_linked_list(head);
+	
+	// ft_lstadd_front()
+	t_list	*head2;
+	t_list	*node2;
+	head2 = ft_lstnew("A");
+	node2 = ft_lstnew("B");
+	ft_lstadd_front(&head2, node2); // head2 -> B -> A -> NULL
+	print_linked_list(head2);
+
+	// ft_lstsize()
+	printf("size=%d\n", ft_lstsize(head));
+	printf("size=%d\n", ft_lstsize(head2));
+
+	// ft_lstlast()
+	print_linked_list(ft_lstlast(head2));
+
+	// ft_lstadd_back()
+	t_list	*head3;
+	head3 = ft_lstnew("C");
+	ft_lstadd_back(&head2, head3); // head2 -> B -> A -> C -> NULL
+	print_linked_list(head2);
+
+	t_list *head4;
+	head4 = NULL; // NULL
+	t_list *head5;
+	head5 = ft_lstnew("X"); // head5 -> X -> NULL
+	ft_lstadd_back(&head4, head5); // head4 -> X -> NULL
+	print_linked_list(head4);
+
+	// ft_lstdelone()
+	t_list *head6;
+	t_list *head7;
+	head6 = ft_lstnew(ft_strdup("A"));
+	head7 = ft_lstnew(ft_strdup("B"));
+	ft_lstadd_back(&head6, head7);
+	ft_lstadd_back(&head6, ft_lstnew(ft_strdup("C"))); // head6 -> A -> B -> C -> NULL
+	ft_lstdelone(head6, del_content); 
+	print_linked_list(head7);
+
+	// ft_lstclear()
+	ft_lstclear(&head7, del_content);
+	print_linked_list(head7);
+
+	// ft_lstiter()
+	t_list *head8;
+	head8 = ft_lstnew(ft_strdup("A"));
+	ft_lstadd_back(&head8, ft_lstnew(ft_strdup("B")));
+	ft_lstadd_back(&head8, ft_lstnew(ft_strdup("C"))); // head8 -> A -> B -> C -> NULL
+	ft_lstiter(head8, del_content);
+
+	// ft_lstmap()
+	// del is used only when allocation fails at some point during the duplication of lst and application of f on lst
+	t_list *head9;
+	head9 = ft_lstnew(ft_strdup("A"));
+	ft_lstadd_back(&head9, ft_lstnew(ft_strdup("B")));
+	ft_lstadd_back(&head9, ft_lstnew(ft_strdup("C"))); // head9 -> A -> B -> C -> NULL
+	t_list *head10;
+	head10 = ft_lstmap(head9, increment_by_one_allocate, del_content);
+	print_linked_list(head9);
+	print_linked_list(head10);
 
 	printf("All tests passed\n");
 	return (0);

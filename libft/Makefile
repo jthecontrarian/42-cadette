@@ -6,7 +6,7 @@
 #    By: jelau <jelau@student.42kl.edu.my>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/11/24 14:46:50 by jelau             #+#    #+#              #
-#    Updated: 2026/11/24 14:47:03 by jelau            ###   ########.fr        #
+#    Updated: 2026/11/27 21:01:06 by jelau            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,27 @@ SRCS = ft_isalpha.c \
 		ft_strnstr.c \
 		ft_atoi.c \
 		ft_calloc.c \
-		ft_strdup.c
+		ft_strdup.c \
+		ft_substr.c \
+		ft_strjoin.c \
+		ft_strtrim.c \
+		ft_split.c \
+		ft_itoa.c \
+		ft_strmapi.c \
+		ft_striteri.c \
+		ft_putchar_fd.c \
+		ft_putstr_fd.c \
+		ft_putendl_fd.c \
+		ft_putnbr_fd.c \
+		ft_lstnew.c \
+		ft_lstadd_front.c \
+		ft_lstsize.c \
+		ft_lstlast.c \
+		ft_lstadd_back.c \
+		ft_lstdelone.c \
+		ft_lstclear.c \
+		ft_lstiter.c \
+		ft_lstmap.c
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
@@ -44,7 +64,7 @@ all: $(NAME)
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
-%.o: %.c
+%.o: %.c libft.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
